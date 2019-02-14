@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Color } from './color';
 import { ColorService } from './color.service';
 
 @Component({
@@ -8,24 +7,25 @@ import { ColorService } from './color.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'TaskAssignmet';
   constructor(private colorService: ColorService) { }
-  ngOnInit() { }
+  ngOnInit() {
+
+  }
   colors = [];
   bodycolor() {
+    // get random color from color service in given api
     return this.colorService.getFlexColor().subscribe(data => {
       // console.log(data.color)
+      // set a default color to inverse the color
       var color1 = 0xffffff
-      var color2 = '0x';
-      for (var i = 0; i < 6; i++) {
-        color2 = color2 + data.color.substr(1).charAt(i)
-      }
+      var color2 = parseInt(data.color.replace(/^#/, ''), 16)
       //  console.log(color2)
+      // inverse of the get bg color
       var result = color1 - color2
       var hex = '#';
       var hex = hex + result.toString(16)
       // coloring the perticular flex box
-      var x = document.getElementsByClassName('color');
+      var x = document.getElementsByClassName('color') as HTMLCollectionOf<HTMLElement> ;
       var i = this.num - 1
       while (i < this.num) {
         x[i].style.background = data.color.toString()
